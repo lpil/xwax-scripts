@@ -1,0 +1,39 @@
+#
+# Native Instruments Audio 4 DJ
+#
+
+# All channels as one device (eg. for use with JACK)
+
+pcm.a4dj_full {
+	type multi
+
+	slaves.a { pcm "plughw:Audio4DJ,0,0"; channels 2 }
+	slaves.b { pcm "plughw:Audio4DJ,0,1"; channels 2 }
+
+	bindings.0 { slave a; channel 0 }
+	bindings.1 { slave a; channel 1 }
+	bindings.2 { slave b; channel 0 }
+	bindings.3 { slave b; channel 1 }
+}
+
+# A dummy control device to keep JACK happy
+ctl.a4dj_full {
+	type hw
+	card 0
+}
+
+pcm.a4dj_ttable {
+        type route;
+        slave.pcm "a4dj_full";
+        slave.channels 4;
+        ttable.0.0 1;
+        ttable.1.1 1;
+        ttable.2.2 1;
+        ttable.3.3 1;
+}
+
+# A dummy control device to keep JACK happy
+ctl.a4dj_ttable {
+	type hw
+	card 0
+}
